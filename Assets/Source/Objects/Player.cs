@@ -30,11 +30,6 @@ namespace Game.Objects
         public LuaPlayer LuaPlayer;
         
         /// <summary>
-        /// A limited Lua-Proxy that is used for the Enemy <see cref="PlayerScript"/>.
-        /// </summary>
-        public LuaEnemy LuaEnemy;
-        
-        /// <summary>
         /// The <see cref="Base"/> object which this player controls. Instantiated by <see cref="PlayerScript.Setup"/>.
         /// </summary>
         public Base Base;
@@ -43,7 +38,7 @@ namespace Game.Objects
         /// <summary>
         /// The list of <see cref="Robot"/> Objects controlled by this <see cref="Player"/>. This list is added to by <see cref="spawnRobot"/>.
         /// </summary>
-        public HashSet<Robot> Robots;
+        public HashSet<Robot> Robots = new HashSet<Robot>();
         
         
 
@@ -74,8 +69,8 @@ namespace Game.Objects
         /// <param name="func">The Function controlling the new Robot (<see cref="PlayerObject.Coroutine"/>)</param>
         public void spawnRobot(DynValue func)
         {
-            var Robot = new Robot(this,func);
-            this.Robots.Add(Robot);
+            var robot = new Robot(this,func);
+            this.Robots.Add(robot);
         }
     }
 }
