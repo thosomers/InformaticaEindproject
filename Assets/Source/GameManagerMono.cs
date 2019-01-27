@@ -16,12 +16,12 @@ namespace Game
         void Start()
         {
             Game = new GameManager(player1.toLoader(),player2.toLoader());
-            Game.Setup();
+            Game.Setup(this);
         }
 
         private void Update()
         {
-            Game.runTick();
+            Game.Update();
         }
     }
 }

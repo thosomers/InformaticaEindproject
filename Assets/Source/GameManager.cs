@@ -19,17 +19,23 @@ namespace Game
         }
 
 
-        public void Setup()
+        public void Setup(MonoBehaviour mono)
         {
             UserData.RegisterAssembly();
-            Player1.Setup(Player2);
-            Player2.Setup(Player1);
+            Player1.Setup(Player2,mono);
+            Player2.Setup(Player1,mono);
         }
         
-        public void runTick()
+        public void Update()
         {
-            Player1.Script.runTick();
-            Player2.Script.runTick();
+            if (!(Player1.Script.isDone() && Player2.Script.isDone()))
+            {
+                return;
+            }
+            
+            
+            Player1.Script.startTick();
+            Player2.Script.startTick();
         }
         
     }

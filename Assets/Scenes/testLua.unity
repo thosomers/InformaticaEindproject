@@ -216,8 +216,7 @@ MonoBehaviour:
       \ end\n  while true do\n    print(\"Base tick\")\n    base.doNothing()\n   end\nend\n"
   player2:
     Name: Test2
-    Source: "function Base(base)\n  while true do\n    print(\"p2 Tick\")\n    base.doNothing()\n
-      \  end\nend"
+    Source: "function Base(base)\n  while true do\n    local i = 0\n   end\nend"
 --- !u!81 &2065706808
 AudioListener:
   m_ObjectHideFlags: 0

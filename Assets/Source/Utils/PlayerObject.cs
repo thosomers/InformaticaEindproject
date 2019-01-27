@@ -8,7 +8,7 @@ namespace Game.Utils
 {
     public abstract class PlayerObject
     {
-        
+        public static readonly int AutoYieldLines = 100;
         
         
         
@@ -16,17 +16,21 @@ namespace Game.Utils
         /// The Lua coroutine that controls this specific object. The coroutine is paused for a number of ticks using: <see cref="runTick"/>.
         /// </summary>
         private DynValue Coroutine;
-        
-        
-        
-        
-        
+
+        public int coolDown = 0;
+
+
+
+
+
+
+
         /// <summary>
         /// The <see cref="Player"/> object which controls this object. The <see cref="Coroutine"/> on this object is also run with <see cref="PlayerScript"/> attached to this object.
         /// </summary>
         public readonly Player Player;
 
-        
+
         /// <summary>
         /// The <see cref="LuaPlayerObject"/> which represents this object in Lua code. (This Object is used in Lua functions to act like a 'Proxy')
         /// </summary>
@@ -52,8 +56,12 @@ namespace Game.Utils
             }
 
             this.Coroutine = func;
+            this.Coroutine.Coroutine.AutoYieldCounter = AutoYieldLines;
             this.Player.Script.newObject(this, 0);
         }
+
+
+        private bool forceYielded = false;
         
         
         /// <summary>
@@ -61,10 +69,30 @@ namespace Game.Utils
         /// </summary>
         /// <param name="script">The <see cref="PlayerScript"/> on which this <see cref="Coroutine"/> runs.</param>
         /// <returns>the number of ticks to yield (Ticks to complete the action)</returns>
-        public int runTick(PlayerScript script)
+        public bool runTick(PlayerScript script)
         {
-            DynValue toSleep = Coroutine.Coroutine.Resume(this.Lua);
-            return toSleep.ToObject<int>();
+            if (coolDown > 0)
+            {
+                return true;
+            }
+            
+            
+            
+            DynValue toSleep = forceYielded ? Coroutine.Coroutine.Resume() : Coroutine.Coroutine.Resume(this.Lua);
+            
+            if (toSleep.Type == DataType.Number)
+            {
+                forceYielded = false;
+                coolDown = (int) toSleep.Number;
+                return true;
+            }
+            else
+            {
+                forceYielded = true;
+                return false;
+            }
+            
+            
         }
         
         

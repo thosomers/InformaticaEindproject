@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Game.Utils;
 using Game.Proxy;
 using MoonSharp.Interpreter;
+using UnityEngine;
 
 namespace Game.Objects
 {
@@ -57,10 +58,10 @@ namespace Game.Objects
         /// A 2nd initializer for the Player object. This is run after the consytructors of this and the enemy player. Sets the Enemy for each player and sets  up the script. (<see cref="PlayerScript.Setup"/>).
         /// </summary>
         /// <param name="enemy">The other <see cref="Player"/> object in the game.</param>
-        public void Setup(Player enemy)
+        public void Setup(Player enemy,MonoBehaviour mono)
         {
             this.Enemy = enemy;
-            this.Script.Setup();
+            this.Script.Setup(mono);
         }
 
         /// <summary>
